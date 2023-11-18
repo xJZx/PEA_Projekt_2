@@ -5,7 +5,7 @@
 void Menu::start()
 {
     std::string lastFilename;
-    double stopTime = 300;
+    double stopTime = 60;
     double temperatureFactor = 0.99;
 
     while (true) {
@@ -36,6 +36,8 @@ void Menu::start()
         {
             std::cout << "Insert the amount of time to stop in seconds: ";
             std::cin >> stopTime;
+            // bo mikrosekundy
+            stopTime = stopTime * 1000000;
         }
         break;
 
@@ -47,7 +49,12 @@ void Menu::start()
 
         case 4:
         {
-            
+            TabuSearch tabu(lastSolution);
+            tabu.tabuSearch(stopTime);
+            lastSolution.minCost = tabu.minCost;
+            lastSolution.minPath = tabu.minPath;
+            lastSolution.time = tabu.executionTime;
+            lastSolution.printSolution();
         }
         break;
 

@@ -1,12 +1,13 @@
+#pragma once
 #include "Tools.hpp"
-//#include "SimulatedAnnealing.h"
-//#include "TabuSearch.h"
+//#include "SimulatedAnnealing.hpp"
+#include "TabuSearch.hpp"
 
 
 class Menu
 {
-public:
-	Tools lastSolution;
+	public:
+		Tools lastSolution;
 
-	void start();
+		void start();
 };

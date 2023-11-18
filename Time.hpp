@@ -1,18 +1,18 @@
-#include<iostream>
-#include<chrono>
+#include <iostream>
+#include <chrono>
 
 /*Klasa mie¿¹ca przebieg czasu w czasie wykonywania algorytmu*/
 class Time
 {
-public:
-	std::chrono::high_resolution_clock::time_point startTime;
-	std::chrono::high_resolution_clock::time_point stopTime;
+	public:
+		std::chrono::high_resolution_clock::time_point startTime;
+		std::chrono::high_resolution_clock::time_point stopTime;
 
-	Time();
-	~Time();
+		Time();
+		~Time();
 
-	void start();
-	void stop();
-	long long int totalTime();
+		void start();
+		void stop();
+		long long int totalTime();
 
 };

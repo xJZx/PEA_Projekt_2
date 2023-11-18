@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -9,23 +10,23 @@ oraz przechowujaca informacje o ostatnio wygenerowanych danych i rozwiazaniu.*/
 
 class Tools
 {
-public:
+	public:
 
-	std::vector<std::vector<int>> matrix;
-	int numberOfCities;
-	std::vector<int> minPath;
-	int minCost;
-	char typeOfSolution;
-	long time;
+		std::vector<std::vector<int>> matrix;
+		int numberOfCities;
+		std::vector<int> minPath;
+		int minCost;
+		char typeOfSolution;
+		long time;
 
-	Tools();
-	~Tools();
+		Tools();
+		~Tools();
 
-	void readFromFile(std::string filename);
+		void readFromFile(std::string filename);
 
-	void random();
+		void random();
 
-	void print();
-	void displaySolution();
+		void print();
+		void printSolution();
 
 };

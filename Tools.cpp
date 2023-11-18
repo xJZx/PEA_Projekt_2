@@ -67,3 +67,25 @@ void Tools::print() {
     }
     std::cout << std::endl;
 }
+
+void Tools::printSolution() {
+    std::cout << "Results:";
+
+    if (!minPath.empty()) {
+
+        std::cout << std::endl << "Path:" << std::endl;
+
+        std::cout << minPath[numberOfCities - 1] << " -> ";
+
+        for (int i = 0; i < numberOfCities - 1; i++) {
+            std::cout << minPath[i] << " -> ";
+        }
+
+        std::cout << minPath[numberOfCities - 1] << std::endl;
+
+        std::cout << "Minimal Cost: " << minCost << std::endl;
+
+        std::cout << "Time: " << time << "[us]" << std::endl;
+
+    }
+}

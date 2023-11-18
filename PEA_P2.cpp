@@ -2,7 +2,6 @@
 //
 
 #include "Menu.hpp"
-#include <iostream>
 
 int main() {
 	Menu menu;
