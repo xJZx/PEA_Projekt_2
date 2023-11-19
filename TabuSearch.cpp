@@ -19,10 +19,15 @@ void TabuSearch::tabuSearch(double stopTime) {
 	// zapisujemy obecnie rozwa¿an¹ œcie¿kê (lista kandydatów)
 	std::vector<int> currentPath;
 	currentPath.resize(numberOfCities);
+
+	// ustawiamy jakieœ pocz¹tkowe rozwi¹zanie
 	currentPath = setSolution(matrix);
 	minCost = findCost(currentPath);
+
 	std::vector<std::vector<int>> neighbours;
 	tabuMatrix.push_back(currentPath);
+
+	// ile musi przeszukaæ kombinacji s¹siadów
 	int stop = numberOfCities * 5;
 	int change = 0;
 

@@ -6,7 +6,8 @@ void Menu::start()
 {
     std::string lastFilename;
     double stopTime = 60;
-    double temperatureFactor = 0.99;
+    // temperature factor
+    double a = 0.99;
 
     while (true) {
         int creation = 0;
@@ -60,13 +61,19 @@ void Menu::start()
 
         case 5:
         {
-            
+            std::cout << "Insert the a (cooling) factor: ";
+            std::cin >> a;
         }
         break;
 
         case 6:
         {
-            
+            SimulatedAnnealing simulatedAnnealing(lastSolution);
+            simulatedAnnealing.simulatedAnnealing(stopTime, a);
+            lastSolution.minCost = simulatedAnnealing.minCost;
+            lastSolution.minPath = simulatedAnnealing.minPath;
+            lastSolution.time = simulatedAnnealing.executionTime;
+            lastSolution.printSolution();
         }
         break;
 
