@@ -76,6 +76,7 @@ void TabuSearch::tabuSearch(double stopTime) {
 		}
 
 		time.check();
+		executionTime = time.totalTime();
 	}
 }
 
