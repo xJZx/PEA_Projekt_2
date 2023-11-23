@@ -5,7 +5,7 @@
 void Menu::start()
 {
     std::string lastFilename;
-    double stopTime = 60;
+    double stopTime = 60 * 1000000;
     // temperature factor
     double a = 0.99;
 
@@ -19,6 +19,7 @@ void Menu::start()
         std::cout << "4. Tabu Search - Start\n";
         std::cout << "5. Simulated Annealing - Criteria\n";
         std::cout << "6. Simulated Annealing - Start\n";
+        std::cout << "7. Print Matrix\n";
         std::cin >> creation;
 
         switch (creation) {
@@ -56,6 +57,8 @@ void Menu::start()
             lastSolution.minPath = tabu.minPath;
             lastSolution.time = tabu.executionTime;
             lastSolution.printSolution();
+            lastSolution.saveToFile();
+            std::cout << std::endl;
         }
         break;
 
@@ -74,6 +77,15 @@ void Menu::start()
             lastSolution.minPath = simulatedAnnealing.minPath;
             lastSolution.time = simulatedAnnealing.executionTime;
             lastSolution.printSolution();
+            lastSolution.saveToFile();
+            std::cout << std::endl;
+        }
+        break;
+
+        case 7:
+        {
+            lastSolution.print();
+            std::cout << std::endl;
         }
         break;
 

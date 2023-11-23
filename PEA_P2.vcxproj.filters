@@ -55,5 +55,14 @@
     <Text Include="tsp20.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="ftv55.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="ftv170.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="rbg358.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

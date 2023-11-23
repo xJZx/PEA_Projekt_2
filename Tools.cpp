@@ -49,6 +49,25 @@ void Tools::readFromFile(std::string filename) {
     }
 }
 
+void Tools::saveToFile() {
+    std::ofstream file;
+    file.open("results.txt");
+
+    file << numberOfCities << "\n";
+
+    file << minPath[numberOfCities - 1] << " -> ";
+
+    for (int i = 0; i < numberOfCities - 1; i++) {
+        file << minPath[i] << " -> ";
+    }
+
+    file << minPath[numberOfCities - 1] << "\n";
+
+    file << "Minimal Cost: " << minCost << "\n";
+
+    file << "Time: " << time << "[us]" << "\n";
+}
+
 void Tools::print() {
     if (matrix.empty() == true) {
         std::cout << "Array is empty!\n";

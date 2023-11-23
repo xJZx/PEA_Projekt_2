@@ -28,7 +28,8 @@ void TabuSearch::tabuSearch(double stopTime) {
 	tabuMatrix.push_back(currentPath);
 
 	// ile musi przeszukaæ kombinacji s¹siadów
-	int stop = numberOfCities * 5;
+	int stop = numberOfCities /** 5*/;
+	// co ile wymieniamy tablicê tabu
 	int change = 0;
 
 	// start mierzenia czasu
@@ -36,7 +37,7 @@ void TabuSearch::tabuSearch(double stopTime) {
 	time.start();
 
 	while (time.totalTime() < stopTime) {
-		if (change < 500) {
+		if (change < 1000) {
 			// znalezienie s¹siadów dla obecnej listy kandydatów
 			for (int i = 0; i < stop; i++) {
 				neighbours.push_back(findNeighbour(currentPath));

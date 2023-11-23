@@ -23,6 +23,7 @@ class Tools
 		~Tools();
 
 		void readFromFile(std::string filename);
+		void saveToFile();
 
 		void random();
 
