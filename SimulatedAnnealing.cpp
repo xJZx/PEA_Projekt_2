@@ -25,6 +25,7 @@ void SimulatedAnnealing::simulatedAnnealing(double stopTime, double a) {
 
 	// ustawiamy jakieœ pocz¹tkowe rozwi¹zanie
 	currentPath = setSolution(matrix, a);
+	std::cout << "Cost after the Greedy Algorithm: " << findCost(currentPath) << "\n";
 
 	std::vector<int> neighbours;
 	neighbours.resize(numberOfCities);
@@ -41,26 +42,27 @@ void SimulatedAnnealing::simulatedAnnealing(double stopTime, double a) {
 			// jeœli znaleziony s¹siad oka¿e siê korzystniejszy, staje siê nowym rozwi¹zaniem
 			if (findCost(neighbours) < findCost(currentPath)) {
 				currentPath = neighbours;
-				time.stop();
+				time.check();
 				executionTime = time.totalTime();
 			}
 			// równie¿ tak siê stanie jeœli propabilistycznie mo¿e siê okazaæ optymalniejszy
 			else if (((double)rand() / RAND_MAX) < probability(currentPath, neighbours)) {
 				currentPath = neighbours;
-				time.stop();
+				time.check();
 				executionTime = time.totalTime();
 			}
 		}
 
 		// sch³adzanie
 		temperature = cooling(a);
-		time.stop();
+		time.check();
 	}
 
 	minPath = currentPath;
 	minCost = findCost(minPath);
 }
 
+// ustalenie pocz¹tkowego rozwi¹zania metod¹ zach³ann¹
 std::vector<int> SimulatedAnnealing::setSolution(std::vector<std::vector<int>> matrix, double a) {
 	std::vector<int> solution;
 	int visitedCities = 0;

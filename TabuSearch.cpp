@@ -23,7 +23,9 @@ void TabuSearch::tabuSearch(double stopTime) {
 	// ustawiamy jakieœ pocz¹tkowe rozwi¹zanie
 	currentPath = setSolution(matrix);
 	minCost = findCost(currentPath);
+	std::cout << "Cost after the Greedy Algorithm: " << minCost << "\n";
 
+	// macierz odwiedzonych s¹siadów
 	std::vector<std::vector<int>> neighbours;
 	tabuMatrix.push_back(currentPath);
 
@@ -56,7 +58,7 @@ void TabuSearch::tabuSearch(double stopTime) {
 			if (findCost(currentPath) < minCost) {
 				minPath = currentPath;
 				minCost = findCost(currentPath);
-				time.stop();
+				time.check();
 				executionTime = time.totalTime();
 				change = 0;
 			}
@@ -73,10 +75,11 @@ void TabuSearch::tabuSearch(double stopTime) {
 			}
 		}
 
-		time.stop();
+		time.check();
 	}
 }
 
+// ustalenie pocz¹tkowego rozwi¹zania metod¹ zach³ann¹
 std::vector<int> TabuSearch::setSolution(std::vector<std::vector<int>> matrix) {
 	std::vector<int> solution;
 	int visitedCities = 0;
