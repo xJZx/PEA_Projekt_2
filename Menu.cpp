@@ -25,12 +25,31 @@ void Menu::start()
         switch (creation) {
         case 1:
         {
-            std::string filename;
-            std::cout << "Insert the filename: ";
-            std::cin >> filename;
-            lastFilename = filename;
-            lastSolution.readFromFile(lastFilename);
-            std::cout << std::endl;
+            int choose = 0;
+            std::cout << "Select options:\n";
+            std::cout << "Any key - BACK\n";
+            std::cout << "1. TXT\n";
+            std::cout << "2. XML\n";
+            std::cin >> choose;
+
+            if (choose == 1) {
+                std::string filename;
+                std::cout << "Insert the filename: ";
+                std::cin >> filename;
+                lastFilename = filename;
+                lastSolution.readFromFile(lastFilename);
+                std::cout << std::endl;
+            }
+            else if (choose == 2) {
+                std::string filename;
+                std::cout << "Insert the filename: ";
+                std::cin >> filename;
+                lastFilename = filename;
+                const char* filenameXML = filename.c_str();
+                lastSolution.readFromXML(filenameXML);
+                std::cout << std::endl;
+            }
+            
         }
         break;
 

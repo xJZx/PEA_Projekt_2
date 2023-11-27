@@ -4,6 +4,7 @@
 #include <fstream>
 #include <vector>
 #include "Time.hpp"
+#include "tinyxml2.hpp"
 
 /*Klasa zawieraj¹ca potrzebne narzêdzia 
 oraz przechowujaca informacje o ostatnio wygenerowanych danych i rozwiazaniu.*/
@@ -23,6 +24,7 @@ class Tools
 		~Tools();
 
 		void readFromFile(std::string filename);
+		void readFromXML(const char* filename);
 		void saveToFile();
 
 		void random();

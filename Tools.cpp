@@ -1,6 +1,8 @@
 #include "Tools.hpp"
 #include <iomanip>
 
+using namespace tinyxml2;
+
 Tools::Tools() {
 	numberOfCities = 0;
 	minPath.resize(numberOfCities);
@@ -46,6 +48,57 @@ void Tools::readFromFile(std::string filename) {
     else
     {
         std::cout << "Error occurred!\n";
+    }
+}
+
+void Tools::readFromXML(const char* filename) {
+    XMLDocument xmlDoc;
+
+    if (xmlDoc.LoadFile(filename) != XML_SUCCESS) {
+        std::cerr << "Error loading XML file: " << filename << std::endl;
+        return;
+    }
+
+    XMLElement* root = xmlDoc.RootElement();
+    if (!root) {
+        std::cerr << "Error: Root element not found." << std::endl;
+        return;
+    }
+
+    // the hierarchy of the XML file
+    XMLElement* graphElement = root->FirstChildElement("graph");
+     
+    XMLElement* vertexElement = graphElement->FirstChildElement("vertex");
+    // Count the number of nodes
+    numberOfCities = 0;
+    while (vertexElement) {
+        numberOfCities++;
+        vertexElement = vertexElement->NextSiblingElement("vertex");
+    }
+
+    matrix.clear();
+    matrix.resize(numberOfCities, std::vector<int>(numberOfCities, -1));
+
+    // Iterate through the vertices and their edges, populate the adjacency matrix
+    if (graphElement) {
+        // Assuming the nodes are represented by "vertex" elements
+        XMLElement* vertexElement = graphElement->FirstChildElement("vertex");
+        int source = 0;
+        while (vertexElement) {
+            XMLElement* edgeElement = vertexElement->FirstChildElement("edge");
+            while (edgeElement) {
+                int target, weight;
+                edgeElement->QueryIntText(&target);
+                edgeElement->QueryIntAttribute("cost", &weight);
+
+                matrix[source][target] = weight;
+
+                edgeElement = edgeElement->NextSiblingElement("edge");
+            }
+
+            vertexElement = vertexElement->NextSiblingElement("vertex");
+            source++;
+        }
     }
 }
 

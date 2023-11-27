@@ -132,6 +132,7 @@
     <ClCompile Include="SimulatedAnnealing.cpp" />
     <ClCompile Include="TabuSearch.cpp" />
     <ClCompile Include="Time.cpp" />
+    <ClCompile Include="tinyxml2.cpp" />
     <ClCompile Include="Tools.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -139,6 +140,7 @@
     <ClInclude Include="SimulatedAnnealing.hpp" />
     <ClInclude Include="TabuSearch.hpp" />
     <ClInclude Include="Time.hpp" />
+    <ClInclude Include="tinyxml2.hpp" />
     <ClInclude Include="Tools.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -146,6 +148,11 @@
     <Text Include="ftv55.txt" />
     <Text Include="rbg358.txt" />
     <Text Include="tsp20.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="ftv170.xml" />
+    <Xml Include="ftv35.xml" />
+    <Xml Include="ftv55.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
