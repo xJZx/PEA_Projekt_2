@@ -77,7 +77,7 @@ void Tools::readFromXML(const char* filename) {
     }
 
     matrix.clear();
-    matrix.resize(numberOfCities, std::vector<int>(numberOfCities, -1));
+    matrix.resize(numberOfCities, std::vector<int>(numberOfCities, INT_MAX));
 
     // Iterate through the vertices and their edges, populate the adjacency matrix
     if (graphElement) {
@@ -87,9 +87,10 @@ void Tools::readFromXML(const char* filename) {
         while (vertexElement) {
             XMLElement* edgeElement = vertexElement->FirstChildElement("edge");
             while (edgeElement) {
-                int target, weight;
+                int target;
+                double weight;
                 edgeElement->QueryIntText(&target);
-                edgeElement->QueryIntAttribute("cost", &weight);
+                edgeElement->QueryDoubleAttribute("cost", &weight);
 
                 matrix[source][target] = weight;
 

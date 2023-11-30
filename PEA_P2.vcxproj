@@ -153,6 +153,7 @@
     <Xml Include="ftv170.xml" />
     <Xml Include="ftv35.xml" />
     <Xml Include="ftv55.xml" />
+    <Xml Include="rbg358.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

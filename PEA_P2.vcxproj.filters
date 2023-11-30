@@ -81,5 +81,8 @@
     <Xml Include="ftv170.xml">
       <Filter>Resource Files</Filter>
     </Xml>
+    <Xml Include="rbg358.xml">
+      <Filter>Resource Files</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

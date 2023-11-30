@@ -129,6 +129,8 @@ int SimulatedAnnealing::findCost(std::vector<int>& path) {
 }
 
 double SimulatedAnnealing::probability(std::vector<int> path, std::vector<int> neighbours) {
+	// wzór ze slajdu ze sta³¹ Boltzmanna (koszt to E - energia, która jest dzielona przez sta³¹ Boltzmanna (w tym przypadku a)
+	// oraz przez t - temperaturê
 	return exp(-(findCost(neighbours) - findCost(path)) / temperature);
 }
 
