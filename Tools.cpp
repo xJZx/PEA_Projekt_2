@@ -232,7 +232,7 @@ void Tools::printSolution() {
 
         std::cout << "Minimal Cost: " << minCost << "\n";
 
-        std::cout << "Time when Minimal Cost was found: " << bestTimeStamp << "[us]" << "\n";
+        std::cout << "Time when Minimal Cost was found: " << bestTimeStamp << " [us]" << "\n";
 
         /*std::cout << std::endl << "Path at the end:" << std::endl;
 
@@ -246,7 +246,7 @@ void Tools::printSolution() {
 
         std::cout << "Minimal Cost: " << minCostEnd << std::endl;*/
 
-        std::cout << "Time: " << time << "[us]" << std::endl;
+        std::cout << "Time: " << time << " [us]" << std::endl;
 
     }
 }

@@ -31,7 +31,7 @@ void TabuSearch::tabuSearch(double stopTime) {
 	tabuMatrix.push_back(currentPath);
 
 	// ile musi przeszukaæ kombinacji s¹siadów
-	int stop = numberOfCities * 5;
+	int stop = (numberOfCities * 5) + 1;
 	// co ile wymieniamy tablicê tabu
 	int change = 0;
 
@@ -40,7 +40,7 @@ void TabuSearch::tabuSearch(double stopTime) {
 	time.start();
 
 	while (time.totalTime() < stopTime) {
-		if (change < 100) {
+		if (change < 200) {
 			// znalezienie s¹siadów dla obecnej listy kandydatów
 			for (int i = 0; i < stop; i++) {
 				neighbours.push_back(findNeighbour(currentPath));
@@ -63,6 +63,7 @@ void TabuSearch::tabuSearch(double stopTime) {
 				executionTime = time.totalTime();
 				bestTimeStamp = time.totalTime();
 				change = 0;
+				tabuMatrix.clear();
 			}
 			else {
 				change++;
@@ -71,10 +72,21 @@ void TabuSearch::tabuSearch(double stopTime) {
 			// dodanie obecnej œcie¿ki do tablicy tabu (zakazana œcie¿ka, nie mo¿na jej powtórzyæ)
 			tabuMatrix.push_back(currentPath);
 		}
+		// przeszukiwanie lokalne
 		else {
 			for (int i = 0; i < numberOfCities / 2; i++) {
 				currentPath = findNeighbour(currentPath);
+
+				if (findCost(currentPath) < minCost) {
+					minPath = currentPath;
+					minCost = findCost(currentPath);
+					time.check();
+					executionTime = time.totalTime();
+					bestTimeStamp = time.totalTime();
+				}
 			}
+			/*tabuMatrix.clear();
+			change = 0;*/
 		}
 
 		time.check();
@@ -102,7 +114,7 @@ std::vector<int> TabuSearch::setSolution(std::vector<std::vector<int>> matrix) {
 
 		// znalezienie minimum dla macierzy s¹siedztwa
 		for (int i = 0; i < numberOfCities; i++) {
-			if ((matrix[currentCity][i] < min) /*&& (matrix[currentCity][i] != INT_MAX)*/ && (visited[i] == false) && (currentCity != i)) {
+			if ((matrix[currentCity][i] < min) && (visited[i] == false) && (currentCity != i)) {
 				min = matrix[currentCity][i];
 				minIndex = i;
 			}
