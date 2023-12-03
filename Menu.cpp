@@ -7,7 +7,8 @@ void Menu::start()
     std::string lastFilename;
     double stopTime = 60 * 1000000;
     // temperature factor
-    double a = 0.99;
+    double a = 0.9999;
+    int epoque = 1;
 
     while (true) {
         int creation = 0;
@@ -15,7 +16,7 @@ void Menu::start()
         std::cout << "Any key - EXIT\n";
         std::cout << "1. Read from the file\n";
         std::cout << "2. Stop critera\n";
-        std::cout << "3. Tabu Search - Critera\n";
+        std::cout << "3. Check results\n";
         std::cout << "4. Tabu Search - Start\n";
         std::cout << "5. Simulated Annealing - Criteria\n";
         std::cout << "6. Simulated Annealing - Start\n";
@@ -37,7 +38,7 @@ void Menu::start()
                 std::cout << "Insert the filename: ";
                 std::cin >> filename;
                 lastFilename = filename;
-                lastSolution.readFromFile(lastFilename);
+                lastSolution.readFromTXT(lastFilename);
                 std::cout << std::endl;
             }
             else if (choose == 2) {
@@ -64,7 +65,7 @@ void Menu::start()
 
         case 3:
         {
-            
+            lastSolution.readFromFile("results.txt");
         }
         break;
 
@@ -74,9 +75,10 @@ void Menu::start()
             tabu.tabuSearch(stopTime);
             lastSolution.minCost = tabu.minCost;
             lastSolution.minPath = tabu.minPath;
+            lastSolution.bestTimeStamp = tabu.bestTimeStamp;
             lastSolution.time = tabu.executionTime;
             lastSolution.printSolution();
-            lastSolution.saveToFile();
+            lastSolution.saveToFile(lastFilename);
             std::cout << std::endl;
         }
         break;
@@ -85,18 +87,23 @@ void Menu::start()
         {
             std::cout << "Insert the a (cooling) factor: ";
             std::cin >> a;
+            std::cout << "Insert amount of epoques: ";
+            std::cin >> epoque;
         }
         break;
 
         case 6:
         {
             SimulatedAnnealing simulatedAnnealing(lastSolution);
-            simulatedAnnealing.simulatedAnnealing(stopTime, a);
+            simulatedAnnealing.simulatedAnnealing(stopTime, a, epoque);
             lastSolution.minCost = simulatedAnnealing.minCost;
             lastSolution.minPath = simulatedAnnealing.minPath;
+            /*lastSolution.minCostEnd = simulatedAnnealing.minCostEnd;
+            lastSolution.minPathEnd = simulatedAnnealing.minPathEnd;*/
+            lastSolution.bestTimeStamp = simulatedAnnealing.bestTimeStamp;
             lastSolution.time = simulatedAnnealing.executionTime;
             lastSolution.printSolution();
-            lastSolution.saveToFile();
+            lastSolution.saveToFile(lastFilename);
             std::cout << std::endl;
         }
         break;

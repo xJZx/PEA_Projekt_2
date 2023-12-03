@@ -1,13 +1,17 @@
 #include "SimulatedAnnealing.hpp"
 #include <algorithm>
+#include <unordered_map>
 
 
 SimulatedAnnealing::SimulatedAnnealing(Tools lastSolution) {
 	numberOfCities = lastSolution.numberOfCities;
+	//minCostEnd = INT_MAX;
+	//minPathEnd.resize(numberOfCities);
 	minCost = INT_MAX;
 	minPath.resize(numberOfCities);
 	matrix = lastSolution.matrix;
 	temperature = 0;
+	bestTimeStamp = 0;
 	executionTime = 0;
 }
 
@@ -15,7 +19,7 @@ SimulatedAnnealing::~SimulatedAnnealing() {
 
 }
 
-void SimulatedAnnealing::simulatedAnnealing(double stopTime, double a) {
+void SimulatedAnnealing::simulatedAnnealing(double stopTime, double a, int epoque) {
 	// ile musi przeszukaæ kombinacji s¹siadów
 	int stop = (numberOfCities * 5) + 1;
 
@@ -23,9 +27,11 @@ void SimulatedAnnealing::simulatedAnnealing(double stopTime, double a) {
 	std::vector<int> currentPath;
 	currentPath.resize(numberOfCities);
 
-	// ustawiamy jakieœ pocz¹tkowe rozwi¹zanie
+	// ustawiamy pocz¹tkowe rozwi¹zanie (algorytm zach³anny)
 	currentPath = setSolution(matrix, a);
+	minPath = currentPath;
 	std::cout << "Cost after the Greedy Algorithm: " << findCost(currentPath) << "\n";
+	std::cout << "Temp Start: " << temperature << "\n";
 
 	std::vector<int> neighbours;
 	neighbours.resize(numberOfCities);
@@ -35,22 +41,39 @@ void SimulatedAnnealing::simulatedAnnealing(double stopTime, double a) {
 	time.start();
 
 	while (time.totalTime() < stopTime) {
-		// znalezienie s¹siadów dla obecnej listy kandydatów
-		for (int i = 0; i < stop; i++) {
-			neighbours = findNeighbour(currentPath);
+		int epoqueCounter = 0;
+		while (epoqueCounter < epoque) {
+			// znalezienie s¹siadów dla obecnej listy kandydatów
+			for (int i = 0; i < stop; i++) {
+				neighbours = findNeighbour(currentPath);
 
-			// jeœli znaleziony s¹siad oka¿e siê korzystniejszy, staje siê nowym rozwi¹zaniem
-			if (findCost(neighbours) < findCost(currentPath)) {
-				currentPath = neighbours;
-				time.check();
-				executionTime = time.totalTime();
+				// jeœli znaleziony s¹siad oka¿e siê korzystniejszy, staje siê nowym rozwi¹zaniem
+				if (findCost(neighbours) < findCost(currentPath)) {
+					currentPath = neighbours;
+					time.check();
+					executionTime = time.totalTime();
+				}
+				// równie¿ tak siê stanie jeœli probabilistycznie mo¿e siê okazaæ optymalniejszy
+				else {
+					double randomNumber = ((double)rand() / RAND_MAX);
+					double prob = probability(currentPath, neighbours);
+					//std::cout << randomNumber << " " << prob << "\n";
+					if (randomNumber < prob) {
+						currentPath = neighbours;
+						time.check();
+						executionTime = time.totalTime();
+					}
+				}
+
+				if (findCost(currentPath) < findCost(minPath)) {
+					time.check();
+					bestTimeStamp = time.totalTime();
+					minPath = currentPath;
+					minCost = findCost(minPath);
+				}
 			}
-			// równie¿ tak siê stanie jeœli propabilistycznie mo¿e siê okazaæ optymalniejszy
-			else if (((double)rand() / RAND_MAX) < probability(currentPath, neighbours)) {
-				currentPath = neighbours;
-				time.check();
-				executionTime = time.totalTime();
-			}
+
+			epoqueCounter++;
 		}
 
 		// sch³adzanie
@@ -58,35 +81,40 @@ void SimulatedAnnealing::simulatedAnnealing(double stopTime, double a) {
 		time.check();
 	}
 
-	minPath = currentPath;
-	minCost = findCost(minPath);
+	//minPathEnd = currentPath;
+	//minCostEnd = findCost(minPathEnd);
+	std::cout << "Temp End: " << temperature << "\n";
 }
 
 // ustalenie pocz¹tkowego rozwi¹zania metod¹ zach³ann¹
 std::vector<int> SimulatedAnnealing::setSolution(std::vector<std::vector<int>> matrix, double a) {
 	std::vector<int> solution;
-	int visitedCities = 0;
-	int currentCity = 0;
+	std::vector<bool> visited;
+	
+	// wype³nienie mapy
+	visited.resize(numberOfCities, false);
 
+	int currentCity = 0;
+	solution.push_back(currentCity);
+	visited[0] = true;
+	// index na jakim znaleziono minimum w macierzy s¹siedztwa
+	int minIndex = 0;
+
+	int visitedCities = 1;
 	while (visitedCities < numberOfCities) {
 		int min = INT_MAX;
-		// index na jakim znaleziono minimum w macierzy s¹siedztwa
-		int minIndex = 0;
 
 		// znalezienie minimum dla macierzy s¹siedztwa
 		for (int i = 0; i < numberOfCities; i++) {
-			if ((matrix[currentCity][i] < min) && (matrix[currentCity][i] != -1)) {
+			if ((matrix[currentCity][i] < min) /*&& (matrix[currentCity][i] != INT_MAX)*/ && (visited[i] == false) && (currentCity != i)) {
 				min = matrix[currentCity][i];
 				minIndex = i;
 			}
 		}
 
-		// wyeliminowanie podcykli z macierzy s¹siedztwa
-		for (int i = 0; i < numberOfCities; i++) {
-			matrix[currentCity][minIndex] = INT_MAX;
-			matrix[minIndex][currentCity] = INT_MAX;
-			matrix[minIndex][0] = INT_MAX;
-		}
+		visited[minIndex] = true;
+
+		currentCity = minIndex;
 
 		solution.push_back(minIndex);
 		visitedCities++;

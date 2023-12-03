@@ -9,9 +9,12 @@ public:
 	std::vector<std::vector<int>> tabuMatrix;
 	std::vector<std::vector<int>> matrix;
 	int tabuArraySize;
+	//int minCostEnd;
 	int minCost;
 	int numberOfCities;
+	//std::vector<int> minPathEnd;
 	std::vector<int> minPath;
+	long bestTimeStamp;
 	long executionTime;
 
 	TabuSearch(Tools lastSolution);

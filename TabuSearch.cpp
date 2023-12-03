@@ -8,6 +8,7 @@ TabuSearch::TabuSearch(Tools lastSolution) {
 	tabuArraySize = pow(numberOfCities, 2);
 	minPath.resize(numberOfCities);
 	matrix = lastSolution.matrix;
+	bestTimeStamp = 0;
 	executionTime = 0;
 }
 
@@ -20,7 +21,7 @@ void TabuSearch::tabuSearch(double stopTime) {
 	std::vector<int> currentPath;
 	currentPath.resize(numberOfCities);
 
-	// ustawiamy jakieœ pocz¹tkowe rozwi¹zanie
+	// ustawiamy pocz¹tkowe rozwi¹zanie (algorytm zach³anny)
 	currentPath = setSolution(matrix);
 	minCost = findCost(currentPath);
 	std::cout << "Cost after the Greedy Algorithm: " << minCost << "\n";
@@ -30,7 +31,7 @@ void TabuSearch::tabuSearch(double stopTime) {
 	tabuMatrix.push_back(currentPath);
 
 	// ile musi przeszukaæ kombinacji s¹siadów
-	int stop = numberOfCities /** 5*/;
+	int stop = numberOfCities * 5;
 	// co ile wymieniamy tablicê tabu
 	int change = 0;
 
@@ -39,7 +40,7 @@ void TabuSearch::tabuSearch(double stopTime) {
 	time.start();
 
 	while (time.totalTime() < stopTime) {
-		if (change < 1000) {
+		if (change < 100) {
 			// znalezienie s¹siadów dla obecnej listy kandydatów
 			for (int i = 0; i < stop; i++) {
 				neighbours.push_back(findNeighbour(currentPath));
@@ -60,6 +61,7 @@ void TabuSearch::tabuSearch(double stopTime) {
 				minCost = findCost(currentPath);
 				time.check();
 				executionTime = time.totalTime();
+				bestTimeStamp = time.totalTime();
 				change = 0;
 			}
 			else {
@@ -83,28 +85,32 @@ void TabuSearch::tabuSearch(double stopTime) {
 // ustalenie pocz¹tkowego rozwi¹zania metod¹ zach³ann¹
 std::vector<int> TabuSearch::setSolution(std::vector<std::vector<int>> matrix) {
 	std::vector<int> solution;
-	int visitedCities = 0;
-	int currentCity = 0;
+	std::vector<bool> visited;
 
+	// wype³nienie mapy
+	visited.resize(numberOfCities, false);
+
+	int currentCity = 0;
+	solution.push_back(currentCity);
+	visited[0] = true;
+	// index na jakim znaleziono minimum w macierzy s¹siedztwa
+	int minIndex = 0;
+
+	int visitedCities = 1;
 	while (visitedCities < numberOfCities) {
 		int min = INT_MAX;
-		// index na jakim znaleziono minimum w macierzy s¹siedztwa
-		int minIndex = 0;
 
 		// znalezienie minimum dla macierzy s¹siedztwa
 		for (int i = 0; i < numberOfCities; i++) {
-			if ((matrix[currentCity][i] < min) && (matrix[currentCity][i] != -1)) {
+			if ((matrix[currentCity][i] < min) /*&& (matrix[currentCity][i] != INT_MAX)*/ && (visited[i] == false) && (currentCity != i)) {
 				min = matrix[currentCity][i];
 				minIndex = i;
 			}
 		}
 
-		// wyeliminowanie podcykli z macierzy s¹siedztwa
-		for (int i = 0; i < numberOfCities; i++) {
-			matrix[currentCity][minIndex] = INT_MAX;
-			matrix[minIndex][currentCity] = INT_MAX;
-			matrix[minIndex][0] = INT_MAX;
-		}
+		visited[minIndex] = true;
+
+		currentCity = minIndex;
 
 		solution.push_back(minIndex);
 		visitedCities++;

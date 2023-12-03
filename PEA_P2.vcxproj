@@ -147,6 +147,7 @@
     <Text Include="ftv170.txt" />
     <Text Include="ftv55.txt" />
     <Text Include="rbg358.txt" />
+    <Text Include="results.txt" />
     <Text Include="tsp20.txt" />
   </ItemGroup>
   <ItemGroup>

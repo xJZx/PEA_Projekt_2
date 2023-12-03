@@ -70,6 +70,9 @@
     <Text Include="rbg358.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="results.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="ftv35.xml">

@@ -15,17 +15,21 @@ class Tools
 
 		std::vector<std::vector<int>> matrix;
 		int numberOfCities;
+		//std::vector<int> minPathEnd;
 		std::vector<int> minPath;
 		int minCost;
+		//int minCostEnd;
 		char typeOfSolution;
+		long bestTimeStamp;
 		long time;
 
 		Tools();
 		~Tools();
 
-		void readFromFile(std::string filename);
+		void readFromTXT(std::string filename);
 		void readFromXML(const char* filename);
-		void saveToFile();
+		void saveToFile(std::string lastFilename);
+		void readFromFile(std::string filename);
 
 		void random();
 
