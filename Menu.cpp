@@ -5,6 +5,7 @@
 void Menu::start()
 {
     std::string lastFilename;
+    std::string results;
     double stopTime = 60 * 1000000;
     // temperature factor
     double a = 0.9999;
@@ -65,7 +66,9 @@ void Menu::start()
 
         case 3:
         {
-            lastSolution.readFromFile("results.txt");
+            std::cout << "Insert the results filename: ";
+            std::cin >> results;
+            lastSolution.readFromFile(results);
         }
         break;
 

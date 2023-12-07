@@ -23,6 +23,9 @@ void SimulatedAnnealing::simulatedAnnealing(double stopTime, double a, int epoqu
 	// ile musi przeszukaæ kombinacji s¹siadów
 	int stop = (numberOfCities * 5) + 1;
 
+	std::vector<int> costs;
+	std::vector<long> times;
+
 	// zapisujemy obecnie rozwa¿an¹ œcie¿kê
 	std::vector<int> currentPath;
 	currentPath.resize(numberOfCities);
@@ -70,6 +73,10 @@ void SimulatedAnnealing::simulatedAnnealing(double stopTime, double a, int epoqu
 					bestTimeStamp = time.totalTime();
 					minPath = currentPath;
 					minCost = findCost(minPath);
+					std::cout << "Temporary lowest cost: " << minCost << "\n";
+					costs.push_back(minCost);
+					std::cout << "Temporary time when found: " << bestTimeStamp << "\n";
+					times.push_back(bestTimeStamp);
 				}
 			}
 
@@ -84,6 +91,12 @@ void SimulatedAnnealing::simulatedAnnealing(double stopTime, double a, int epoqu
 	//minPathEnd = currentPath;
 	//minCostEnd = findCost(minPathEnd);
 	std::cout << "Temp End: " << temperature << "\n";
+	for (int i = 0; i < costs.size(); i++) {
+		std::cout << costs[i] << "\n";
+	}
+	for (int i = 0; i < times.size(); i++) {
+		std::cout << times[i] << "\n";
+	}
 }
 
 // ustalenie pocz¹tkowego rozwi¹zania metod¹ zach³ann¹

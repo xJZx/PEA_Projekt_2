@@ -62,6 +62,8 @@ void TabuSearch::tabuSearch(double stopTime) {
 				time.check();
 				executionTime = time.totalTime();
 				bestTimeStamp = time.totalTime();
+				std::cout << "Temporary lowest cost: " << minCost << "\n";
+				std::cout << "Temporary time when found: " << bestTimeStamp << "\n";
 				change = 0;
 				tabuMatrix.clear();
 			}
